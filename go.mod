@@ -3,8 +3,12 @@ module github.com/linuxfight/yandexCalcApi
 go 1.23.2
 
 require (
+	github.com/gofiber/fiber/v3 v3.0.0-beta.3
+	go.uber.org/zap v1.27.0
+)
+
+require (
 	github.com/andybalholm/brotli v1.1.1 // indirect
-	github.com/gofiber/fiber/v3 v3.0.0-beta.3 // indirect
 	github.com/gofiber/utils/v2 v2.0.0-beta.7 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.17.11 // indirect
@@ -14,6 +18,5 @@ require (
 	github.com/valyala/fasthttp v1.58.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 )
