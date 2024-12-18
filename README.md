@@ -120,7 +120,7 @@ curl --location 'http://localhost:8080/api/v1/calculate' \
 - 422 - входные данные не соответствуют требованиям приложения
 ```json
 {
-    "error": "invalid expression, etc..."
+    "error": "invalid json"
 }
 ``` 
 

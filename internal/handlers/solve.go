@@ -5,20 +5,20 @@ import (
 	"github.com/linuxfight/yandexCalcApi/pkg/calc"
 )
 
-type SolveRequest struct {
-	Expression string `json:"expression"`
-}
-
 func SolveHandler(c fiber.Ctx) error {
-	var body SolveRequest
-	if err := c.Bind().JSON(body); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(
-			ErrorResponse{Error: err.Error()},
+	var body solveRequest
+	if err := c.Bind().JSON(&body); err != nil || body.Expression == "" {
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(
+			&errorResponse{Error: "invalid json"},
 		)
 	}
 
 	result, solveErr := calc.Solve(body.Expression)
 	if solveErr != nil {
-
+		return c.Status(fiber.StatusInternalServerError).JSON(
+			&errorResponse{Error: solveErr.Error()},
+		)
 	}
+
+	return c.JSON(successResponse{Result: result})
 }
