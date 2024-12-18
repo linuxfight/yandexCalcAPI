@@ -68,22 +68,31 @@ func applyOperator(left, right float64, op rune) (float64, error) {
 func tokenize(expression string) ([]string, error) {
 	var tokens []string
 	var current string
-	for _, r := range expression {
+	for i, r := range expression {
+		// Skip spaces
 		if r == ' ' {
 			continue
 		}
+
+		// Handle operators and parentheses
 		if r == '+' || r == '-' || r == '*' || r == '/' || r == '(' || r == ')' || r == '^' || r == '!' {
 			if current != "" {
 				tokens = append(tokens, current)
 				current = ""
 			}
-			tokens = append(tokens, string(r))
+			// Special case for negative numbers
+			if r == '-' && (i == 0 || strings.ContainsRune("+-*/^(!", rune(expression[i-1]))) {
+				current += string(r)
+			} else {
+				tokens = append(tokens, string(r))
+			}
 		} else if (r >= '0' && r <= '9') || r == '.' { // Handle numbers (including float)
 			current += string(r)
 		} else {
 			return nil, errors.New("invalid character in expression")
 		}
 	}
+
 	if current != "" {
 		tokens = append(tokens, current)
 	}
