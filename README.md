@@ -6,7 +6,7 @@ API для решения математических выражений.
 ### Docker
 Можно запустить приложение через [Docker](https://www.docker.com/).
 
-1. Docker run
+- Docker run
 ```shell
 # образ с GitHub
 docker pull ghcr.io/linuxfight/yandexcalcapi:main
@@ -15,8 +15,8 @@ docker run -p 8080:8080 -d ghcr.io/linuxfight/yandexcalcapi:main
 # сборка локально
 docker build -t test .
 docker run -p 8080:8080 -d test
-``` 
-2. Docker compose
+```
+- Docker compose
 ```shell
 docker compose -f compose.yml up --build -d
 ``` 
@@ -95,22 +95,36 @@ curl --location 'http://localhost:8080/api/v1/calculate' \
 
 - ```pkg/calc``` - код для обработки выражений
 
-## Ответы от API
-1. 200 - успешное выполнение
+## Документация API
+### Пример запроса:
+
+```expression``` - строка-выражение состоящее из односимвольных идентификаторов и знаков арифметических действий.
+
+Входящие данные - цифры(рациональные), операции +, -, *, /, ^, !, операции приоритизация ( или )
+
+В случае ошибки записи выражения функция выдает ошибку.
 ```json
 {
-    "result": "результат выражения"
+  "expression": "2+2*2"
 }
 ```
 
-2. 422 - входные данные не соответствуют требованиям приложения
+### Пример ответа:
+- 200 - успешное выполнение
+```json
+{
+    "result": "6"
+}
+```
+
+- 422 - входные данные не соответствуют требованиям приложения
 ```json
 {
     "error": "invalid expression, etc..."
 }
 ``` 
 
-3. 500 - ошибка веб сервера
+- 500 - ошибка веб сервера
 ```json
 {
     "error": "Internal server error"

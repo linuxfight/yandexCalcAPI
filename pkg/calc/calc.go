@@ -15,8 +15,6 @@ func precedence(op rune) int {
 		return 1
 	case '*', '/':
 		return 2
-	case '%':
-		return 2
 	case '^':
 		return 3
 	case '!':
@@ -56,8 +54,6 @@ func applyOperator(left, right float64, op rune) (float64, error) {
 		return left / right, nil
 	case '^':
 		return math.Pow(left, right), nil // Exponentiation
-	case '%':
-		return math.Mod(left, right), nil // Modulo
 	case '!':
 		if left != float64(int(left)) || left < 0 {
 			return 0, errors.New("factorial is only defined for non-negative integers")
@@ -76,7 +72,7 @@ func tokenize(expression string) ([]string, error) {
 		if r == ' ' {
 			continue
 		}
-		if r == '+' || r == '-' || r == '*' || r == '/' || r == '(' || r == ')' || r == '^' || r == '%' || r == '!' {
+		if r == '+' || r == '-' || r == '*' || r == '/' || r == '(' || r == ')' || r == '^' || r == '!' {
 			if current != "" {
 				tokens = append(tokens, current)
 				current = ""
@@ -108,7 +104,7 @@ func Solve(expression string) (float64, error) {
 
 		if num, err := strconv.ParseFloat(token, 64); err == nil {
 			output = append(output, num)
-		} else if len(token) == 1 && strings.ContainsRune("+-*/()^%!", rune(token[0])) {
+		} else if len(token) == 1 && strings.ContainsRune("+-*/()^!", rune(token[0])) {
 			op := rune(token[0])
 			if op == '(' {
 				operatorStack = append(operatorStack, op)
