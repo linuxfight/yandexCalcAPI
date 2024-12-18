@@ -13,12 +13,16 @@ type test struct {
 
 func TestSolve(t *testing.T) {
 	testCases := []test{
+		{Error: false, Expression: "1 +  52 ", Result: 53},
+		{Error: false, Expression: "6!", Result: 720},
+		{Error: false, Expression: "10 % 1000", Result: 100},
 		{Error: false, Expression: "1+1", Result: 2},
 		{Error: false, Expression: "(2+2)*2", Result: 8},
 		{Error: false, Expression: "2+2*2", Result: 6},
 		{Error: false, Expression: "1/2", Result: 0.5},
-		{Error: true, Expression: "1+1*", Result: 0},
+		{Error: false, Expression: "2+2^2", Result: 6},
 		{Error: true, Expression: "2+2**2", Result: 0},
+		{Error: true, Expression: "1+1*", Result: 0},
 		{Error: true, Expression: "((2+2-*(2", Result: 0},
 		{Error: true, Expression: "", Result: 0},
 		{Error: true, Expression: "1/0", Result: 0},
