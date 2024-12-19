@@ -140,7 +140,26 @@ curl --location 'http://localhost:8080/api/v1/calculate' \
 {
     "error": "invalid json"
 }
-``` 
+```
+
+Также может быть вызвано неверным выражением:
+```json
+{
+  "expression": "a + 523"
+}
+```
+или
+```json
+{
+  "expression": "+521*21()())))))"
+}
+```
+Ответ:
+```json
+{
+  "error": "invalid character etc..."
+}
+```
 
 #### 500 - ошибка веб сервера
 Ошибка может произойти, если выполнение Solve вызвало панику.
