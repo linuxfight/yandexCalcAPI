@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/gofiber/fiber/v3"
+	"github.com/linuxfight/yandexCalcApi/internal/logger"
 	"github.com/linuxfight/yandexCalcApi/pkg/calc"
 )
 
@@ -13,9 +14,21 @@ func SolveHandler(c fiber.Ctx) error {
 		)
 	}
 
+	defer func() {
+		if err := recover(); err != nil {
+			logger.Log.Errorf("panic occurred: %v", err)
+
+			fiberErr := c.Status(fiber.StatusInternalServerError).JSON(
+				&errorResponse{Error: "internal server error"},
+			)
+			if fiberErr != nil {
+				logger.Log.Errorf("fiber error: %v", fiberErr)
+			}
+		}
+	}()
 	result, solveErr := calc.Solve(body.Expression)
 	if solveErr != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(
+		return c.Status(fiber.StatusUnprocessableEntity).JSON(
 			&errorResponse{Error: solveErr.Error()},
 		)
 	}
