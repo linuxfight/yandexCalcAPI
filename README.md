@@ -91,7 +91,7 @@ curl --location 'http://localhost:8080/api/v1/calculate' \
 
 - ```internal``` - код веб сервера
   - ```logger``` - логирование с помощью [Zap](https://github.com/uber-go/zap)
-  - ```handlers``` - функции для обработки http запросов с помощью [Fiber](https://github.com/gofiber/fiber)
+  - ```server``` - функции для обработки http запросов с помощью [Fiber](https://github.com/gofiber/fiber)
 
 - ```pkg/calc``` - код для обработки выражений
 
