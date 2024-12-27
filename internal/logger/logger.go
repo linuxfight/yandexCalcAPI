@@ -15,6 +15,8 @@ type logger struct {
 	*zap.SugaredLogger
 }
 
+// https://github.com/linuxfight/webTemplate/blob/main/internal/adapters/logger/logger.go
+
 // New is a function to initialize logger
 /*
  * debug bool - is debug mode

@@ -18,8 +18,5 @@ jobs:
         with:
           go-version: '>=1.23.2'
 
-      - name: Build
-        run: go test -c github.com/linuxfight/yandexCalcApi/pkg/calc -o calc-test
-
       - name: Run tests
-        run: ./calc-test -test.paniconexit0
+        run: go test -v ./...

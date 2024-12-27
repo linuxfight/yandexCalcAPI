@@ -122,6 +122,12 @@ curl --location 'http://localhost:8080/api/v1/calculate' \
 ```
 
 #### 422 - входные данные не соответствуют требованиям приложения
+Если запрос не содержит заголовок ```Content-Type``` = ```application/json```, то вы получите:
+```json
+{
+  "error": "Content-Type must be application/json"
+}
+```
 
 Запрос:
 ```json
@@ -138,7 +144,7 @@ curl --location 'http://localhost:8080/api/v1/calculate' \
 Ответ:
 ```json
 {
-    "error": "invalid json"
+    "error": "invalid JSON"
 }
 ```
 
@@ -157,7 +163,7 @@ curl --location 'http://localhost:8080/api/v1/calculate' \
 Ответ:
 ```json
 {
-  "error": "invalid character etc..."
+  "error": "invalid character/expression/etc"
 }
 ```
 

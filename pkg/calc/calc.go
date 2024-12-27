@@ -1,13 +1,10 @@
 package calc
 
 import (
-	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 )
 
-// Helper function to check operator precedence
 func precedence(op rune) int {
 	switch op {
 	case '+', '-':
@@ -21,7 +18,6 @@ func precedence(op rune) int {
 	}
 }
 
-// Evaluate a simple mathematical expression
 func applyOperator(left, right float64, op rune) (float64, error) {
 	switch op {
 	case '+':
@@ -32,15 +28,14 @@ func applyOperator(left, right float64, op rune) (float64, error) {
 		return left * right, nil
 	case '/':
 		if right == 0 {
-			return 0, errors.New("division by zero")
+			return 0, divisionByZero
 		}
 		return left / right, nil
 	default:
-		return 0, errors.New("unsupported operation: %c")
+		return 0, unsupportedOperation
 	}
 }
 
-// Tokenizes the input expression
 func tokenize(expression string) ([]string, error) {
 	var tokens []string
 	var current string
@@ -53,15 +48,15 @@ func tokenize(expression string) ([]string, error) {
 				tokens = append(tokens, current)
 				current = ""
 			}
-			if r == '-' && (i == 0 || strings.ContainsRune("+-*/^(!", rune(expression[i-1]))) {
+			if r == '-' && (i == 0 || strings.ContainsRune("+-*/(", rune(expression[i-1]))) {
 				current += string(r)
 			} else {
 				tokens = append(tokens, string(r))
 			}
-		} else if r >= '0' && r <= '9' || r == '.' { // Handle numbers (including float)
+		} else if r >= '0' && r <= '9' || r == '.' {
 			current += string(r)
 		} else {
-			return nil, errors.New("invalid character in expression")
+			return nil, invalidCharacter
 		}
 	}
 	if current != "" {
@@ -99,8 +94,8 @@ func Solve(expression string) (float64, error) {
 					output = append(output, result)
 					operatorStack = operatorStack[:len(operatorStack)-1]
 				}
-				operatorStack = operatorStack[:len(operatorStack)-1] // Pop '('
-			} else { // Operator
+				operatorStack = operatorStack[:len(operatorStack)-1]
+			} else {
 				for len(operatorStack) > 0 && precedence(operatorStack[len(operatorStack)-1]) >= precedence(op) {
 					right := output[len(output)-1]
 					output = output[:len(output)-1]
@@ -116,7 +111,7 @@ func Solve(expression string) (float64, error) {
 				operatorStack = append(operatorStack, op)
 			}
 		} else {
-			return 0, fmt.Errorf("invalid token: %s", token)
+			return 0, invalidToken
 		}
 	}
 
@@ -134,11 +129,11 @@ func Solve(expression string) (float64, error) {
 	}
 
 	if len(operatorStack) > 0 {
-		return 0, fmt.Errorf("invalid token")
+		return 0, invalidToken
 	}
 
 	if len(output) != 1 {
-		return 0, fmt.Errorf("invalid expression")
+		return 0, invalidExpression
 	}
 
 	return output[0], nil

@@ -1,4 +1,4 @@
-package handlers
+package server
 
 type solveRequest struct {
 	Expression string `json:"expression"`
